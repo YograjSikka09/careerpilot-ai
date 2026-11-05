@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F8F6F1" />
+  <meta name="description" content="CareerPilot AI — Quiet Luxury AI-Powered Skill-to-Job Matching and Career Intelligence Platform." />
+  <title>CareerPilot AI · Intelligent Career Architecture</title>
+
+  <!-- Typography: Playfair Display (Editorial Serif) & Plus Jakarta Sans (Modern Clean Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#F8F6F1',
+            cream: '#F2EEE6',
+            surface: '#FFFFFF',
+            champagne: '#E8DDCB',
+            sand: '#D8C8B2',
+            taupe: '#A79784',
+            bronze: {
+              DEFAULT: '#9B7955',
+              light: '#B89774',
+              dark: '#7D5E3E',
+              50: '#FBF9F6',
+              100: '#F4EFEA',
+            },
+            espresso: '#302B27',
+            charcoal: '#45413D',
+            sage: {
+              DEFAULT: '#8FA382',
+              light: '#EBF0E8',
+              dark: '#586E4B'
+            },
+            terracotta: {
+              DEFAULT: '#C58E78',
+              light: '#F8EFEA',
+              dark: '#9E6751'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          },
+          boxShadow: {
+            'luxury': '0 4px 20px -2px rgba(48, 43, 39, 0.04), 0 20px 40px -4px rgba(48, 43, 39, 0.03)',
+            'luxury-lg': '0 10px 40px -4px rgba(48, 43, 39, 0.06), 0 30px 60px -8px rgba(48, 43, 39, 0.04)',
+            'card': '0 2px 10px rgba(48, 43, 39, 0.03), 0 1px 2px rgba(48, 43, 39, 0.02)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- PDF.js library for client-side PDF text extraction and verification -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F8F6F1;
+      color: #302B27;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      selection-background-color: #E8DDCB;
+    }
+    ::selection { background: #E8DDCB; color: #302B27; }
+
+    /* Custom editorial scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #F8F6F1; }
+    ::-webkit-scrollbar-thumb { background: #D8C8B2; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #A79784; }
+
+    /* Luxury card styling */
+    .luxury-card {
+      background: #FFFFFF;
+      border: 1px solid #E8DDCB;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px -2px rgba(48, 43, 39, 0.04), 0 16px 32px -4px rgba(48, 43, 39, 0.02);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .luxury-card:hover {
+      border-color: #D8C8B2;
+      box-shadow: 0 8px 30px -4px rgba(48, 43, 39, 0.06), 0 24px 48px -8px rgba(48, 43, 39, 0.03);
+    }
+
+    /* Refined buttons */
+    .btn-luxury-primary {
+      background: #302B27;
+      color: #F8F6F1;
+      border: 1px solid #302B27;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-luxury-primary:hover {
+      background: #45413D;
+      border-color: #45413D;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(48, 43, 39, 0.12);
+    }
+
+    .btn-luxury-secondary {
+      background: #FFFFFF;
+      color: #302B27;
+      border: 1px solid #D8C8B2;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-luxury-secondary:hover {
+      background: #F8F6F1;
+      border-color: #9B7955;
+      color: #9B7955;
+      transform: translateY(-1px);
+    }
+
+    .btn-luxury-bronze {
+      background: #9B7955;
+      color: #FFFFFF;
+      border: 1px solid #9B7955;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-luxury-bronze:hover {
+      background: #876746;
+      border-color: #876746;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(155, 121, 85, 0.22);
+    }
+
+    /* Input fields */
+    .luxury-field {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #E8DDCB;
+      color: #302B27;
+      padding: 11px 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .luxury-field:focus {
+      border-color: #9B7955;
+      box-shadow: 0 0 0 3px rgba(155, 121, 85, 0.12);
+    }
+    .luxury-field::placeholder {
+      color: #A79784;
+    }
+
+    /* Badges */
+    .luxury-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* Subtle hairline borders */
+    .border-subtle { border-color: #E8DDCB; }
+    .border-warm { border-color: #D8C8B2; }
+
+    /* Elegant animations */
+    .fade-enter {
+      animation: luxuryFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes luxuryFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Toast */
+    .luxury-toast {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 100;
+      background: #302B27;
+      color: #F8F6F1;
+      padding: 13px 20px;
+      border-radius: 12px;
+      box-shadow: 0 16px 36px rgba(48, 43, 39, 0.18);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(232, 221, 203, 0.18);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes toastSlide {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Modal Backdrop */
+    .luxury-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(48, 43, 39, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 70;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: backdropFade 0.2s ease-out;
+    }
+    @keyframes backdropFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .luxury-modal-panel {
+      width: min(680px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #FFFFFF;
+      border: 1px solid #E8DDCB;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 25px 60px -10px rgba(48, 43, 39, 0.2);
+      animation: modalSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalSlide {
+      from { transform: scale(0.97) translateY(8px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* Drag and drop highlight */
+    .drag-active {
+      border-color: #9B7955 !important;
+      background-color: #F8F6F1 !important;
+    }
+  </style>
+</head>
+<body class="bg-ivory text-espresso min-h-screen flex flex-col">
+  <div id="app" class="flex-1 flex flex-col"></div>
+  <div id="toast-root"></div>
+  <div id="modal-container"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

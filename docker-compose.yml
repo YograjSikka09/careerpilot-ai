@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-careerpilot}
+      MYSQL_USER: ${MYSQL_USER:-careerpilot}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-careerpilot_dev_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_this_root_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - careerpilot_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-change_this_root_password}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ai-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: mysql
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-careerpilot}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER:-careerpilot}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-careerpilot_dev_password}
+      JWT_SECRET: ${JWT_SECRET:-replace_with_a_long_random_secret_at_least_32_chars}
+      AI_SERVICE_URL: http://ai-service:8001
+      SEED_DATA: "true"
+    ports:
+      - "8080:8080"
+
+  ai-service:
+    build: ./ai-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+
+volumes:
+  careerpilot_mysql:
